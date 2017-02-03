@@ -35,7 +35,35 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+  /*** 调用系统提示框 */
+  // const dialog = require('electron').dialog;
+  // console.log(dialog.showOpenDialog({
+  //   properties: ['openFile', 'openDirectory', 'multiSelections']
+  // }));
+  /********注册全局快捷键**** */
+  var globalShortcut = electron.globalShortcut; //require('global-shortcut');
+  // Register a 'ctrl+x' shortcut listener.
+  var ret = globalShortcut.register('ctrl+x', function () {
+    console.log('ctrl+x is pressed');
+  })
+
+  if (!ret) {
+    console.log('registration failed');
+  }
+  // Check whether a shortcut is registered.
+  console.log(globalShortcut.isRegistered('ctrl+x'));
+
 }
+
+app.on('will-quit', function () {
+  // Unregister a shortcut.
+  globalShortcut.unregister('ctrl+x');
+
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll();
+});
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
